@@ -3,9 +3,10 @@ import pkgutil
 from typing import List, Protocol, Type
 
 from django.conf import settings
+from django_dharma.protocols import CheckProtocol
 
 
-def collect_protocol_implementations(protocol: Type[Protocol]) -> List[Type[Protocol]]:
+def collect_protocol_implementations(protocol: CheckProtocol) -> list[CheckProtocol]:
     """
     Collects all classes that implement a specific protocol across the entire project.
 

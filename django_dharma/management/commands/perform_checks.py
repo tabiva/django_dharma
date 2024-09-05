@@ -1,6 +1,6 @@
-from collector import collect_protocol_implementations
 from django.core.management.base import BaseCommand
-from protocols import CheckProtocol
+from django_dharma.collector import collect_protocol_implementations
+from django_dharma.protocols import CheckProtocol
 
 
 class Command(BaseCommand):
@@ -9,7 +9,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         for protocol in collect_protocol_implementations(CheckProtocol):
             try:
-                protocol.run_checks()
+                protocol().run_checks()
                 self.stdout.write(
                     self.style.SUCCESS(
                         f"{protocol.__class__.__name__}: superato con successo."

@@ -2,3 +2,6 @@
 venv
 django_dharma.egg-info
 build/lib/django_dharma
+django_dharma/__pycache__
+django_dharma/management/__pycache__
+django_dharma/management/commands/__pycache__
