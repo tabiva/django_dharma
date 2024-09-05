@@ -1,2 +1,4 @@
 
 venv
+django_dharma.egg-info
+build/lib/django_dharma
