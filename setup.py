@@ -7,7 +7,7 @@ setup(
     include_package_data=True,
     description="A Django app to run checks on models",
     author="Ivan Tabarelli",
-    author_email="itabarelli@google.com",
+    author_email="itabarelli@gmail.com",
     url="https://github.com/tabiva/django-dharma",
     classifiers=[
         "Programming Language :: Python :: 3",

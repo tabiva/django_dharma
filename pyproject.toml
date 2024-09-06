@@ -1,15 +1,23 @@
 [tool.poetry]
 name = "django-dharma"
 version = "0.1.0"
-description = "About"
-authors = ["tabiva <sirio.taba85@gmail.com>"]
-readme = "README.md"
+description = "A project for managing Dharma checks in Django"
+authors = ["Ivan Tabarelli <itabarelli@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.11"
-django = "^5.1.1"
+python = "^3.8"
+Django = "^4.2"
 
+[tool.poetry.dev-dependencies]
+tox = "^3.24.4"
+tox-poetry = "^0.3.0"
+flake8 = "^3.9.2"
+isort = "^5.10.1"
+pre-commit = "^2.13.0"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.flake8]
+max-line-length = 88
+exclude = ["migrations"]
+
+[tool.isort]
+profile = "black"
