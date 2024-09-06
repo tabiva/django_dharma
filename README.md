@@ -34,21 +34,50 @@ To install and set up the project, follow these steps:
    poetry add django
    ```
 
+# Django Dharma
+
+Django Dharma is a Django library designed to facilitate running checks on models. It provides a structured way to perform and manage checks on your Django models.
+
+## Project Structure
+
+The project consists of two main components:
+
+- `django_dharma/`: The core library containing logic for running model checks.
+- `test_project/`: A test Django project used to perform migrations and test the library with different Django versions.
+
+## Installation
+
+To install Django Dharma, you can use `pip`:
+
+1. **Install the package:**
+
+   ```bash
+   pip install django-dharma
+   ```
+
+2. **Add `django_dharma` to your Django project's `INSTALLED_APPS` in `settings.py`:**
+
+   ```python
+   INSTALLED_APPS = [
+       # ... other installed apps
+       'django_dharma',
+   ]
+   ```
+
 ## Usage
 
-To run model checks, execute the following commands in the test project:
+To use Django Dharma, you need to run the `perform_checks` management command to execute the checks on your models. This command will collect all implementations of the specified protocol and run the checks, saving any anomalies to the `Anomaly` model.
 
 1. **Run migrations:**
 
    ```bash
-   cd test_project
-   poetry run python manage.py migrate
+   python manage.py migrate
    ```
 
-2. **Run tests:**
+2. **Run the checks:**
 
    ```bash
-   poetry run python manage.py test
+   python manage.py perform_checks
    ```
 
 ## Contributing
