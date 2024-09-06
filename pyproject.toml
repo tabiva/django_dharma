@@ -13,9 +13,6 @@ tox = "^3.24.4"
 tox-poetry = "^0.3.0"
 flake8 = "^3.9.2"
 isort = "^5.10.1"
-pre-commit = "^2.13.0"
-
-[tool.poetry.group.dev.dependencies]
 pre-commit = "^3.8.0"
 
 [tool.flake8]
