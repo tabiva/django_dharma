@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "django-dharma"
 version = "0.1.0"
-description = "A project for managing Dharma checks in Django"
+description = "A Django app to run checks on models"
 authors = ["Ivan Tabarelli <itabarelli@gmail.com>"]
 
 [tool.poetry.dependencies]
