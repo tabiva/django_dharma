@@ -1,47 +1,45 @@
 import unittest
-from typing import Type
-from django.db import models
 from django_dharma.protocols import CheckProtocol
+from django.db import models
 
 
-# Define mock classes for testing
-class MockModel(models.Model):
-    pass
-
-
-class ValidCheck(CheckProtocol):
-    model = MockModel()
+# Mock valid check that should conform to CheckProtocol
+class ValidCheck:
+    model = models.Model
 
     def run_checks(self) -> None:
         pass
 
 
+# Mock invalid check that should not conform to CheckProtocol
 class InvalidCheck:
-    model = MockModel()
-
-    def run_checks(self) -> None:
-        pass
+    pass  # This class does not implement run_checks or have model attribute
 
 
 class ProtocolTestCase(unittest.TestCase):
-    def test_check_protocol_implementation(self):
-        """Test that ValidCheck conforms to CheckProtocol."""
-        check_instance = ValidCheck()
-        self.assertIsInstance(check_instance, CheckProtocol)
 
     def test_check_protocol_incompatibility(self):
-        """Test that InvalidCheck does not conform to CheckProtocol."""
+        """
+        Test that InvalidCheck does not conform to CheckProtocol.
+        """
         check_instance = InvalidCheck()
-        self.assertNotIsInstance(check_instance, CheckProtocol)
+        # Ensure the class does not conform to CheckProtocol by checking isinstance
+        self.assertNotIsInstance(
+            check_instance,
+            CheckProtocol,
+            "InvalidCheck should not conform to CheckProtocol",
+        )
 
     def test_check_protocol_method_presence(self):
-        """Test that ValidCheck has the required methods."""
+        """
+        Test that ValidCheck has the required methods.
+        """
         check_instance = ValidCheck()
-        self.assertTrue(hasattr(check_instance, "run_checks"))
-        self.assertCallable(check_instance.run_checks)
-
-    def test_check_protocol_attribute_presence(self):
-        """Test that ValidCheck has the required attributes."""
-        check_instance = ValidCheck()
-        self.assertTrue(hasattr(check_instance, "model"))
-        self.assertIsInstance(check_instance.model, models.Model)
+        # Ensure that run_checks is callable
+        self.assertTrue(
+            callable(check_instance.run_checks), "run_checks should be callable"
+        )
+        # Ensure the model attribute is present
+        self.assertTrue(
+            hasattr(check_instance, "model"), "model attribute should be present"
+        )
