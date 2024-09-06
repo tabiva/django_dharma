@@ -1,8 +1,8 @@
 import importlib
 import pkgutil
-from typing import List, Protocol, Type
 
 from django.conf import settings
+
 from django_dharma.protocols import CheckProtocol
 
 
