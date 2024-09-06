@@ -1,9 +1,9 @@
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
 
+from django_dharma import models
 from django_dharma.collector import collect_protocol_implementations
 from django_dharma.protocols import CheckProtocol
-from django_dharma import models
 
 
 class Command(BaseCommand):

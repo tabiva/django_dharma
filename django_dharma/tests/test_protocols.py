@@ -1,6 +1,8 @@
 import unittest
-from django_dharma.protocols import CheckProtocol
+
 from django.db import models
+
+from django_dharma.protocols import CheckProtocol
 
 
 # Mock valid check that should conform to CheckProtocol

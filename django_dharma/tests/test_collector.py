@@ -1,6 +1,8 @@
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 from django.conf import settings
 from django.test import TestCase
+
 from django_dharma.collector import collect_protocol_implementations
 from django_dharma.protocols import CheckProtocol
 
