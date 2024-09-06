@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 SECRET_KEY = "Not a secret key at all, actually"

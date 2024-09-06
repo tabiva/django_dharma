@@ -34,7 +34,7 @@ class Anomaly(models.Model):
             error_message='Expected at least 30 records, but found 20.'
         )
         print(anomaly)  # Output: Daily Record Count - MyModel at 2023-09-05 12:00:00
-    """
+    """  # noqa: E501
 
     check_name = models.CharField(max_length=255)
     model_name = models.CharField(max_length=255)

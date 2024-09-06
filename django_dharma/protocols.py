@@ -38,7 +38,7 @@ class CheckProtocol(Protocol):
         check_instance = DailyRecordCountCheck()
         if isinstance(check_instance, CheckProtocol):
             check_instance.run_checks()
-    """
+    """  # noqa: E501
 
     model: models.Model
 
@@ -52,5 +52,5 @@ class CheckProtocol(Protocol):
 
         Raises:
             Exception: If the check fails, an appropriate exception should be raised.
-        """
+        """  # noqa: E501
         ...
