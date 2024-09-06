@@ -40,7 +40,7 @@ class CheckProtocol(Protocol):
             check_instance.run_checks()
     """  # noqa: E501
 
-    model: models.Model
+    model: models.Model = None
 
     def run_checks(self) -> None:
         """

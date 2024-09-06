@@ -6,37 +6,18 @@ Django Dharma is a Django library designed to facilitate running checks on model
 
 The project consists of two main components:
 
-- `django_dharma/`: The core library containing logic for running model checks.
-- `test_project/`: A test Django project used to perform migrations and test the library with different Django versions.
-
-## Installation
-
-To install and set up the project, follow these steps:
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/your-username/django-dharma.git
-   cd django-dharma
-   ```
-
-2. **Install dependencies:**
-
-   Make sure you have [Poetry](https://python-poetry.org/) installed. Then run:
-
-   ```bash
-   poetry install
-   ```
-
-3. **Add Django to the test project:**
-
-   ```bash
-   poetry add django
-   ```
-
 # Django Dharma
 
 Django Dharma is a Django library designed to facilitate running checks on models. It provides a structured way to perform and manage checks on your Django models.
+
+## Why Use Django Dharma?
+
+Django Dharma is useful in scenarios where you need to validate data after it has been entered into your system. For example, if you are importing data from an external source without validating it during the import process (maybe you want to get them in your system as they are), you might want to perform validation checks afterward. With Django Dharma, you can execute checks such as:
+
+- How many records have been inserted?
+- Does the `foo` column contain values other than `bar`?
+
+You can save the results of these checks and then analyze them or take necessary precautions based on the findings.
 
 ## Project Structure
 
@@ -72,9 +53,47 @@ To use Django Dharma, you need to run the `perform_checks` management command to
 
    ```bash
    python manage.py migrate
+
    ```
 
-2. **Run the checks:**
+2. **Create a check:**
+
+   To create a check, define a class that implements the `CheckProtocol`. The class should include a `run_checks` method and an attribute `model` of type `models.MyModel`. Here is an example:
+
+   ```python
+   from datetime import datetime
+   from django_dharma.base import count_check
+   from myapp import models
+
+   class MyModelCheck:
+       model = models.MyModel
+
+       def run_checks(self) -> None:
+        """
+        Verifies that the 'foo' column contains only 'biz' and 'foo' values.
+        """
+        allowed_values = {'biz', 'foo'}
+
+        # Get distinct values in the 'foo' column
+        distinct_values = set(self.model.objects.values_list('foo', flat=True).distinct())
+
+        # Check if all distinct values are in the allowed_values set
+        assert distinct_values.issubset(allowed_values), (
+            f"Column 'foo' contains unexpected values: {distinct_values - allowed_values}"
+        )
+
+        print("All values in the 'foo' column are valid!")
+
+           """
+           Checks that there are at least 30 records for today in the MyModel model.
+           """
+           count_check(model=self.model, filters={"date": datetime.today().date()}, count=30)
+
+           print("All checks passed!")
+
+   ```
+
+3. **Run the checks:**
 
    ```bash
    python manage.py perform_checks
