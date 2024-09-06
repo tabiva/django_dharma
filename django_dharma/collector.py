@@ -35,7 +35,7 @@ def collect_protocol_implementations(protocol: CheckProtocol) -> list[CheckProto
                             implementations.append(attr)
                 except Exception as e:
                     print(f"Error processing module {module_name}: {e}")
-        except ModuleNotFoundError:
+        except (ModuleNotFoundError, ImportError):
             print(f"Module {app} not found")
 
     return implementations
