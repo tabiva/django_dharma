@@ -9,7 +9,7 @@ def count_check(model: models.base.ModelBase, filters: dict, count: int) -> None
     :param model: Django model to perform the check on.
     :param filters: Dictionary of filters to apply to the model's records.
     :param count: Minimum number of expected records.
-    """
+    """  # noqa: E501
     tot = model.objects.filter(**filters).count()
 
     assert tot >= count, (
