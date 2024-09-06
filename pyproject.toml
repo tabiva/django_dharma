@@ -22,3 +22,6 @@ exclude = ["migrations"]
 
 [tool.isort]
 profile = "black"
+
+[tool.django_dharma]
+django_dharma = { path = "django_dharma" }
