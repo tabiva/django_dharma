@@ -2,14 +2,6 @@
 
 Django Dharma is a Django library designed to facilitate running checks on models. It provides a structured way to perform and manage checks on your Django models.
 
-## Project Structure
-
-The project consists of two main components:
-
-# Django Dharma
-
-Django Dharma is a Django library designed to facilitate running checks on models. It provides a structured way to perform and manage checks on your Django models.
-
 ## Why Use Django Dharma?
 
 Django Dharma is useful in scenarios where you need to validate data after it has been entered into your system. For example, if you are importing data from an external source without validating it during the import process (maybe you want to get them in your system as they are), you might want to perform validation checks afterward. With Django Dharma, you can execute checks such as:
@@ -69,27 +61,26 @@ To use Django Dharma, you need to run the `perform_checks` management command to
        model = models.MyModel
 
        def run_checks(self) -> None:
-        """
-        Verifies that the 'foo' column contains only 'biz' and 'foo' values.
-        """
-        allowed_values = {'biz', 'foo'}
+            """
+            Verifies that the 'foo' column contains only 'biz' and 'foo' values.
+            """
+            allowed_values = {'biz', 'foo'}
 
-        # Get distinct values in the 'foo' column
-        distinct_values = set(self.model.objects.values_list('foo', flat=True).distinct())
+            # Get distinct values in the 'foo' column
+            distinct_values = set(self.model.objects.values_list('foo', flat=True).distinct())
 
-        # Check if all distinct values are in the allowed_values set
-        assert distinct_values.issubset(allowed_values), (
-            f"Column 'foo' contains unexpected values: {distinct_values - allowed_values}"
-        )
+            # Check if all distinct values are in the allowed_values set
+            assert distinct_values.issubset(allowed_values), (
+                f"Column 'foo' contains unexpected values: {distinct_values - allowed_values}"
+            )
 
-        print("All values in the 'foo' column are valid!")
 
-           """
-           Checks that there are at least 30 records for today in the MyModel model.
-           """
-           count_check(model=self.model, filters={"date": datetime.today().date()}, count=30)
+            """
+            Some example checks are included in this package. Please contribute if you have useful checks to share! This check verifies that there are at least 30 records in the MyModel model for today.
+            """
+            count_check(model=self.model, filters={"date": datetime.today().date()}, count=30)
 
-           print("All checks passed!")
+            print("All checks passed!")
 
    ```
 
