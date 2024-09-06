@@ -8,14 +8,11 @@ authors = ["Ivan Tabarelli <itabarelli@gmail.com>"]
 python = ">=3.9,<4.0"
 Django = "^4.2"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 tox = "^3.24.4"
 tox-poetry = "^0.3.0"
-flake8 = "^3.9.2"
 isort = "^5.10.1"
 pre-commit = "^3.8.0"
-
-[tool.poetry.group.dev.dependencies]
 black = "^24.8.0"
 flake8 = "^7.1.1"
 
