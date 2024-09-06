@@ -76,7 +76,9 @@ To use Django Dharma, you need to run the `perform_checks` management command to
 
 
             """
-            Some example checks are included in this package. Please contribute if you have useful checks to share! This check verifies that there are at least 30 records in the MyModel model for today.
+            Some example checks are included in this package.
+            Please contribute if you have useful checks to share!
+            This check verifies that there are at least 30 records in the MyModel model for today.
             """
             count_check(model=self.model, filters={"date": datetime.today().date()}, count=30)
 
