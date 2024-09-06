@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
-from .models import Anomaly
+from django_dharma.models import Anomaly
 
 
 class AnomalyModelTest(TestCase):
