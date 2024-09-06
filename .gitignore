@@ -6,3 +6,4 @@ django_dharma/__pycache__
 django_dharma/management/__pycache__
 django_dharma/management/commands/__pycache__
 django_dharma/migrations/__pycache__
+django_dharma/tests/__pycache__
