@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.10, 3.11]
+        python-version: [3.11]
         django-version: [4.0, 4.1, 4.2]
 
     steps:
@@ -69,6 +69,10 @@ jobs:
       - name: Run Flake8
         run: |
           poetry run flake8 django_dharma/
+
+      - name: Run Black
+        run: |
+          poetry run black --check django_dharma/
 
       - name: Run isort
         run: |
