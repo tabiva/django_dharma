@@ -12,3 +12,7 @@ django_dharma/scripts/__pycache__
 test_project/test_project/__pycache__
 
 dist
+
+test_project/test_app/__pycache__
+test_project/test_app/migrations/__pycache__
+test_project/db.sqlite3
