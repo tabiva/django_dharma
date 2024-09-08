@@ -66,12 +66,13 @@ any anomalies to the ``Anomaly`` model.
    and an attribute ``model`` of type ``models.MyModel``. Here is an
    example:
 
-   \```python from datetime import datetime from django\ *dharma.base
+   `` 
+    from datetime import datetime 
+
+   from django\ *dharma.base
    import count*\ check from myapp import models
 
    class MyModelCheck: model = models.MyModel
-
-   ::
 
       def run_checks(self) -> None:
            """
@@ -97,7 +98,7 @@ any anomalies to the ``Anomaly`` model.
 
            print("All checks passed!")
 
-   \``\`
+   ``
 
 #. **Run the checks:**
 
