@@ -1,7 +1,8 @@
 import logging
-from typing import Callable, Iterator, List
+from typing import Callable, List, Iterator
+from django.contrib.contenttypes.models import ContentType
+from django_dharma import models
 
-from django.db import models
 
 logging.basicConfig(level=logging.ERROR)
 
@@ -18,6 +19,14 @@ def check(method: Callable) -> Callable:
         try:
             method(*args, **kwargs)
         except AssertionError as e:
+            class_name = args[0].__class__.__name__
+            method_name = method.__name__
+
+            models.Anomaly.objects.create(
+                check_name=f"{method_name}.{class_name}",
+                error_message=e,
+            )
+
             logging.error(f"Check failed: {e}")
         except Exception as e:
             logging.error(f"Unexpected error during check {method.__name__}: {e}")
@@ -39,7 +48,7 @@ class CheckCollector:
         None
     """
 
-    def run_all_checks(self) -> None:
+    def run_checks(self) -> None:
         """
         Execute all methods decorated with @check.
 

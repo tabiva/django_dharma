@@ -30,15 +30,19 @@ class Anomaly(models.Model):
         anomaly = Anomaly.objects.create(
             check_name='Daily Record Count',
             model_name='MyModel',
-            content_type=ContentType.objects.get_for_model(MyModel),
             error_message='Expected at least 30 records, but found 20.'
         )
         print(anomaly)  # Output: Daily Record Count - MyModel at 2023-09-05 12:00:00
     """  # noqa: E501
 
+    class Meta:
+        verbose_name_plural = "Anomalies"
+
     check_name = models.CharField(max_length=255)
-    model_name = models.CharField(max_length=255)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    model_name = models.CharField(max_length=255, blank=True, null=True)
+    content_type = models.ForeignKey(
+        ContentType, on_delete=models.CASCADE, blank=True, null=True
+    )
     error_message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
