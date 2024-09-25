@@ -1,9 +1,24 @@
 import importlib
 import pkgutil
+import traceback
 
 from django.conf import settings
 
 from django_dharma.protocols import CheckProtocol
+import inspect
+
+from typing import List, Type
+from importlib import import_module
+from django.apps import apps
+
+
+def _implements_protocol(module, attr_name, protocol):
+    attr = getattr(module, attr_name)
+    return (
+        isinstance(getattr(module, attr_name), type)
+        and issubclass(attr, protocol)
+        and attr is not protocol
+    )
 
 
 def collect_protocol_implementations(protocol: CheckProtocol) -> list[CheckProtocol]:
@@ -26,13 +41,12 @@ def collect_protocol_implementations(protocol: CheckProtocol) -> list[CheckProto
                     module = importlib.import_module(module_name)
 
                     for attr_name in dir(module):
-                        attr = getattr(module, attr_name)
-                        if (
-                            isinstance(attr, type)
-                            and issubclass(attr, protocol)
-                            and attr is not protocol
-                        ):
-                            implementations.append(attr)
+                        if _implements_protocol(module, attr_name, protocol):
+                            implementations.append(getattr(module, attr_name))
+
+                except TypeError:
+                    traceback.print_exc()
+                    continue
                 except Exception as e:
                     print(f"Error processing module {module_name}: {e}")
         except (ModuleNotFoundError, ImportError):

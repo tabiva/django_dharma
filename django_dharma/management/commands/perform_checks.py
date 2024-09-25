@@ -46,10 +46,16 @@ class Command(BaseCommand):
                 )
             except AssertionError as e:
                 # Log an anomaly if an AssertionError is raised
+                print(protocol.model.__doc__)
                 models.Anomaly.objects.create(
                     check_name=protocol.__class__.__name__,
                     error_message=f"{protocol.__class__.__name__}: {e}",
                     content_type=ContentType.objects.get_for_model(protocol.model),
+                )
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        f"{protocol.__class__.__name__}: Anomalies found (and logged)!"
+                    )
                 )
             except Exception as e:
                 # Log an unexpected error
