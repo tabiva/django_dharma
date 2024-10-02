@@ -4,27 +4,20 @@ from django.conf import settings
 from django.test import TestCase
 
 from django_dharma.collector import collect_protocol_implementations
-from django_dharma.protocols import CheckProtocol
-
-
-# Define a mock protocol for testing
-class MockProtocol(CheckProtocol):
-    def run_checks(self) -> None:
-        pass
+from django_dharma.core import CheckCollector, check
 
 
 # Define some mock classes for testing
-class MockImplementation1(MockProtocol):
-    def run_checks(self) -> None:
-        pass
+class MockImplementation1(CheckCollector):
+    pass
 
 
-class MockImplementation2(MockProtocol):
-    def run_checks(self) -> None:
-        pass
+class MockImplementation2(CheckCollector):
+    pass
 
 
 class CollectorTestCase(TestCase):
+    # @patch("django_dharma.collector.inspect.getfile", return_value="mock_file.py")
     @patch("django_dharma.collector.importlib.import_module")
     @patch("django_dharma.collector.pkgutil.iter_modules")
     def test_collect_protocol_implementations(
@@ -51,7 +44,7 @@ class CollectorTestCase(TestCase):
         settings.INSTALLED_APPS = ["django_dharma"]
 
         # Collect implementations
-        result = collect_protocol_implementations(MockProtocol)
+        result = collect_protocol_implementations()
 
         # Assert that both implementations are found
         self.assertIn(MockImplementation1, result)
@@ -67,7 +60,7 @@ class CollectorTestCase(TestCase):
         settings.INSTALLED_APPS = ["django_dharma"]
 
         # Collect implementations
-        result = collect_protocol_implementations(MockProtocol)
+        result = collect_protocol_implementations()
 
         # Assert that no implementations are found
         self.assertEqual(result, [])
@@ -82,7 +75,7 @@ class CollectorTestCase(TestCase):
         settings.INSTALLED_APPS = ["django_dharma"]
 
         # Collect implementations
-        result = collect_protocol_implementations(MockProtocol)
+        result = collect_protocol_implementations()
 
         # Assert that no implementations are found due to import error
         self.assertEqual(result, [])

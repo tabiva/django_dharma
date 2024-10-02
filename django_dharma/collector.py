@@ -1,27 +1,32 @@
 import importlib
+import inspect
+import os
 import pkgutil
-import traceback
 
 from django.conf import settings
 
-from django_dharma.protocols import CheckProtocol
-import inspect
-
-from typing import List, Type
-from importlib import import_module
-from django.apps import apps
+from django_dharma.core import CheckCollector
 
 
-def _implements_protocol(module, attr_name, protocol):
+def _inherits_from_check_collector(module, attr_name, base_class):
     attr = getattr(module, attr_name)
+    if isinstance(attr, list) or not attr:
+        return False
+
+    attr_file = inspect.getfile(attr)
+    base_class_file = inspect.getfile(base_class)
+
     return (
-        isinstance(getattr(module, attr_name), type)
-        and issubclass(attr, protocol)
-        and attr is not protocol
+        isinstance(attr, type)
+        and issubclass(attr, base_class)
+        and id(attr) != id(base_class)
+        and os.path.abspath(attr_file) != os.path.abspath(base_class_file)
     )
 
 
-def collect_protocol_implementations(protocol: CheckProtocol) -> list[CheckProtocol]:
+def collect_protocol_implementations(
+    base_class: CheckCollector = CheckCollector,
+) -> list[CheckCollector]:
     """
     Collects all classes that implement a specific protocol across the entire project.
 
@@ -41,11 +46,13 @@ def collect_protocol_implementations(protocol: CheckProtocol) -> list[CheckProto
                     module = importlib.import_module(module_name)
 
                     for attr_name in dir(module):
-                        if _implements_protocol(module, attr_name, protocol):
+                        if _inherits_from_check_collector(
+                            module, attr_name, base_class
+                        ):
+
                             implementations.append(getattr(module, attr_name))
 
                 except TypeError:
-                    traceback.print_exc()
                     continue
                 except Exception as e:
                     print(f"Error processing module {module_name}: {e}")
